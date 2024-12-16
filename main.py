@@ -2,52 +2,9 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.constants import h, m_e, e
-import matplotlib.font_manager as fm
-import os
 
-# 한글 폰트 설정 함수
-def set_korean_font():
-    font_dir = os.path.join(os.path.expanduser('~'), '.fonts')
-    font_path = os.path.join(font_dir, 'NanumGothic.ttf')
-
-    # 폰트가 없다면 다운로드
-    if not os.path.exists(font_path):
-        download_nanumgothic()
-
-    # Matplotlib 폰트 설정
-    plt.rcParams['font.family'] = fm.FontProperties(fname=font_path).get_name()
-    plt.rcParams['axes.unicode_minus'] = False
-
-
-# 나눔고딕 폰트 다운로드
-def download_nanumgothic():
-    try:
-        font_url = "https://github.com/naver/nanumfont/releases/download/Ver2.5/NanumFont_TTF_VER2.5.zip"
-        import requests
-        import zipfile
-        import io
-
-        # 폰트 다운로드
-        response = requests.get(font_url)
-        z = zipfile.ZipFile(io.BytesIO(response.content))
-        
-        # 폰트 디렉토리 생성
-        font_dir = os.path.join(os.path.expanduser('~'), '.fonts')
-        os.makedirs(font_dir, exist_ok=True)
-        
-        # 폰트 파일 추출 및 저장
-        for file in z.namelist():
-            if file.endswith('.ttf'):
-                z.extract(file, path=font_dir)
-                
-        # 폰트 캐시 재생성
-        fm._rebuild()
-    except Exception as e:
-        print(f"폰트 다운로드 중 오류 발생: {e}")
-
-
-# 전역 폰트 설정
-set_korean_font()
+plt.rcParams['font.family'] = 'Malgun Gothic'
+plt.rcParams['axes.unicode_minus'] = False
 
 HBAR = h / (2 * np.pi)
 ME = m_e
@@ -80,7 +37,7 @@ def plot_transmission_coefficient(E_ev, V0_ev, width_nm):
     plt.colorbar(contour, label='투과 확률')
     ax.set_xlabel('장벽의 높이 (eV)')
     ax.set_ylabel('장벽 폭 (nm)')
-    ax.set_title(f'전자 터널링 확률\n(전자 에너지 = {E_ev:.2f} eV)')
+    ax.set_title(f'전자 터널링 확률\n(전자 에너지 = {E_ev:.2f} eV, 장벽 높이 = {V0_ev:.2f} eV, 장벽 폭 = {width_nm:.2f} nm)')
     plt.tight_layout()
     return fig
 
@@ -146,6 +103,14 @@ def main():
     current_T = transmission_coefficient(V0_ev, E_ev, width_nm)
     st.sidebar.markdown(f'### 현재 투과 계수\n**{current_T:.4e}**')
 
+    with st.expander("응용 예시"):
+        st.markdown("""
+        전자 터널링의 실제 응용 예시:
+        1. **주사 터널링 현미경 (STM)**: 표면의 원자 구조를 관찰
+        2. **터널 다이오드**: 고속 전자 소자
+        3. **플래시 메모리**: 데이터 저장
+        4. **알파 붕괴**: 원자핵에서의 터널링 현상
+        """)
 
 if __name__ == '__main__':
     main()
