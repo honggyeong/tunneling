@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.constants import h, m_e, e
 
-plt.rcParams['font.family'] = 'Malgun Gothic'
+plt.rcParams['font.family'] = 'DejaVu Sans' 
 plt.rcParams['axes.unicode_minus'] = False
 
 HBAR = h / (2 * np.pi)
