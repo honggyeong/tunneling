@@ -2,13 +2,47 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.constants import h, m_e, e
-
+import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 
 # 한글 폰트 설정
-plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['font.sans-serif'] = ['NanumGothic', 'AppleGothic']  # 나눔고딕 폰트 추가
+plt.rcParams['font.family'] = 'NanumGothic'
+
+# 필요하다면 폰트 다운로드 및 설치
 plt.rcParams['axes.unicode_minus'] = False
+
+# 폰트가 없을 경우 다운로드
+import matplotlib.font_manager as fm
+import os
+
+# 나눔고딕 폰트 다운로드 및 설치
+def download_nanumgothic():
+    try:
+        font_url = "https://github.com/naver/nanumfont/releases/download/Ver2.5/NanumFont_TTF_VER2.5.zip"
+        import requests
+        import zipfile
+        import io
+
+        # 폰트 다운로드
+        response = requests.get(font_url)
+        z = zipfile.ZipFile(io.BytesIO(response.content))
+        
+        # 폰트 디렉토리 생성
+        font_dir = os.path.join(os.path.expanduser('~'), '.fonts')
+        os.makedirs(font_dir, exist_ok=True)
+        
+        # 폰트 파일 추출 및 저장
+        for file in z.namelist():
+            if file.endswith('.ttf'):
+                z.extract(file, path=font_dir)
+                
+        # 폰트 캐시 재생성
+        fm._rebuild()
+    except Exception as e:
+        print(f"폰트 다운로드 중 오류 발생: {e}")
+
+# 폰트 다운로드 시도
+download_nanumgothic()
 HBAR = h / (2 * np.pi)
 ME = m_e
 
