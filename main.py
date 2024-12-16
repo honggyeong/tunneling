@@ -2,12 +2,9 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.constants import h, m_e, e
-import seaborn as sns
-import matplotlib.font_manager as fm
 
-plt.rc("font", family = "Malgun Gothic")
-sns.set(font="Malgun Gothic", rc={"axes.unicode_minus":False}, style='white')
-
+plt.rcParams['font.family'] = 'Malgun Gothic'
+plt.rcParams['axes.unicode_minus'] = False
 
 HBAR = h / (2 * np.pi)
 ME = m_e
