@@ -2,20 +2,24 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.constants import h, m_e, e
-import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm
-
-# 한글 폰트 설정
-plt.rcParams['font.family'] = 'NanumGothic'
-
-# 필요하다면 폰트 다운로드 및 설치
-plt.rcParams['axes.unicode_minus'] = False
-
-# 폰트가 없을 경우 다운로드
 import matplotlib.font_manager as fm
 import os
 
-# 나눔고딕 폰트 다운로드 및 설치
+# 한글 폰트 설정 함수
+def set_korean_font():
+    font_dir = os.path.join(os.path.expanduser('~'), '.fonts')
+    font_path = os.path.join(font_dir, 'NanumGothic.ttf')
+
+    # 폰트가 없다면 다운로드
+    if not os.path.exists(font_path):
+        download_nanumgothic()
+
+    # Matplotlib 폰트 설정
+    plt.rcParams['font.family'] = fm.FontProperties(fname=font_path).get_name()
+    plt.rcParams['axes.unicode_minus'] = False
+
+
+# 나눔고딕 폰트 다운로드
 def download_nanumgothic():
     try:
         font_url = "https://github.com/naver/nanumfont/releases/download/Ver2.5/NanumFont_TTF_VER2.5.zip"
@@ -41,16 +45,9 @@ def download_nanumgothic():
     except Exception as e:
         print(f"폰트 다운로드 중 오류 발생: {e}")
 
-# 폰트 다운로드 시도
-download_nanumgothic()
 
-
-def set_korean_font():
-    plt.rcParams['font.family'] = 'NanumGothic'
-    plt.rcParams['axes.unicode_minus'] = False
-
+# 전역 폰트 설정
 set_korean_font()
-
 
 HBAR = h / (2 * np.pi)
 ME = m_e
@@ -83,7 +80,7 @@ def plot_transmission_coefficient(E_ev, V0_ev, width_nm):
     plt.colorbar(contour, label='투과 확률')
     ax.set_xlabel('장벽의 높이 (eV)')
     ax.set_ylabel('장벽 폭 (nm)')
-    ax.set_title(f'전자 터널링 확률\n(전자 에너지 = {E_ev:.2f} eV, 장벽 높이 = {V0_ev:.2f} eV, 장벽 폭 = {width_nm:.2f} nm)')
+    ax.set_title(f'전자 터널링 확률\n(전자 에너지 = {E_ev:.2f} eV)')
     plt.tight_layout()
     return fig
 
