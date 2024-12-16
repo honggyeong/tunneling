@@ -43,6 +43,15 @@ def download_nanumgothic():
 
 # 폰트 다운로드 시도
 download_nanumgothic()
+
+
+def set_korean_font():
+    plt.rcParams['font.family'] = 'NanumGothic'
+    plt.rcParams['axes.unicode_minus'] = False
+
+set_korean_font()
+
+
 HBAR = h / (2 * np.pi)
 ME = m_e
 
