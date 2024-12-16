@@ -3,7 +3,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.constants import h, m_e, e
 
+import matplotlib.font_manager as fm
 
+# 한글 폰트 설정
+plt.rcParams['font.family'] = 'sans-serif'
+plt.rcParams['font.sans-serif'] = ['NanumGothic', 'AppleGothic']  # 나눔고딕 폰트 추가
+plt.rcParams['axes.unicode_minus'] = False
 HBAR = h / (2 * np.pi)
 ME = m_e
 
